@@ -34,7 +34,6 @@ async def async_encode(input_voice: Union[filelike, bytes],
                        ss: Num = 0,
                        t: Num = -1,
                        tencent: bool = True,
-                       ios_adaptive: bool = False,
                        **kwargs) -> Optional[bytes]:
     """
     将音频文件转化为 silkv3 格式
@@ -49,7 +48,6 @@ async def async_encode(input_voice: Union[filelike, bytes],
         ss(Num) 开始读取时间,对应 ffmpeg 中的ss (只能精确到秒) 默认为0(如t为0则忽略)
         t(Num) 持续读取时间,对应 ffmpeg 中的 t (只能精确到秒) 默认为0(不剪切)
         tencent(bool) 是否转化成腾讯的格式
-        ios_adaptive(bool) 是否适配 iOS 设备（iOS 的音频码率上限比其他平台低）
         ffmpeg_para(list) 额外的 ffmpeg 参数(假设是 ffmpeg 的话)（如 ['-ar', '24000']）
     """
     input_bytes = input_transform(input_voice)
@@ -66,7 +64,7 @@ async def async_encode(input_voice: Union[filelike, bytes],
         ffmpeg_para = kwargs.get("ffmpeg_para")
         pcm = await async_ffmpeg_encode(input_bytes, audio_format, ss, t, ffmpeg_para)
 
-    silk = await async_silk_encode(pcm, rate, tencent, ios_adaptive)
+    silk = await async_silk_encode(pcm, rate, tencent = tencent)
 
     return output_transform(output_voice, silk)
 
@@ -132,7 +130,6 @@ def encode(input_voice: Union[filelike, bytes],
            ss: Num = 0,
            t: Num = -1,
            tencent: bool = True,
-           ios_adaptive: bool = False,
            **kwargs) -> Optional[bytes]:
     """
     将音频文件转化为 silkv3 格式
@@ -147,7 +144,6 @@ def encode(input_voice: Union[filelike, bytes],
         ss(Num) 开始读取时间,对应 ffmpeg 中的ss (只能精确到秒) 默认为0(如t为0则忽略)
         t(Num) 持续读取时间,对应 ffmpeg 中的 t (只能精确到秒) 默认为0(不剪切)
         tencent(bool) 是否转化成腾讯的格式
-        ios_adaptive(bool) 是否适配 iOS 设备（iOS 的音频码率上限比其他平台低）
         ffmpeg_para(list) 额外的 ffmpeg 参数(假设是 ffmpeg 的话)（如 ['-ar', '24000']）
     """
 
@@ -166,7 +162,7 @@ def encode(input_voice: Union[filelike, bytes],
         ffmpeg_para = kwargs.get("ffmpeg_para")
         pcm = ffmpeg_encode(input_bytes, audio_format, ss, t, ffmpeg_para)
 
-    silk = silk_encode(pcm, rate, tencent, ios_adaptive)
+    silk = silk_encode(pcm, rate, tencent = tencent)
     return output_transform(output_voice, silk)
 
 
