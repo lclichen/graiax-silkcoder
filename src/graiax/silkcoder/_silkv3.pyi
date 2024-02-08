@@ -1,6 +1,6 @@
-def encode(data: bytes, rate: int, tencent: bool):
+def encode(pcm_data: bytes, input_samplerate: int, maximum_samplerate: int, bitrate: int, tencent: bool, complexity: int = 2, packet_size: int = 20, packet_loss: int = 0, use_in_band_fec: bool = False, use_dtx: bool = False):
     ...
 
 
-def decode(data: bytes):
+def decode(data: bytes, output_samplerate: int = 24000, packet_loss: float = 0.0):
     ...

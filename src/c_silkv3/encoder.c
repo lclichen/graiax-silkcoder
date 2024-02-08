@@ -49,6 +49,13 @@ PyObject *encode_silk(PyObject *self, PyObject *args, PyObject *keyword_args) {
           &complexity_mode, &packetSize_ms, &packetLoss_perc,
           &INBandFEC_enabled, &DTX_enabled))
     return NULL;
+  /* If no max internal is specified, set to minimum of API fs and 24 kHz */
+  if( max_internal_fs_Hz == 0 ) {
+    max_internal_fs_Hz = 24000;
+    if( API_fs_Hz < max_internal_fs_Hz ) {
+      max_internal_fs_Hz = API_fs_Hz;
+    }
+  }
   unsigned char *psRead = pcmData, *psReadEnd = pcmData + pcmDataSize;
 
   if (API_fs_Hz > MAX_API_FS_KHZ * 1000 || API_fs_Hz < 0)
