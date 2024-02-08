@@ -27,7 +27,6 @@ setup-script = "setup.py"
 run-setuptools = true
 
 [tool.cibuildwheel]
-build = "cp39-*"
 # PyPy，不行
 skip = "pp*"
 
