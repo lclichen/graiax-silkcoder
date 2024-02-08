@@ -17,15 +17,15 @@ jobs:
          cibw_python: ["cp38-*", "cp39-*", "cp310-*", "cp311-*"]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.12.0
+      uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_BUILD_VERBOSITY: 1
         CIBW_BUILD: ${{ matrix.cibw_python }}
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         path: ./wheelhouse/*.whl
 
@@ -39,16 +39,16 @@ jobs:
          cibw_python: ["cp39-*", "cp310-*", "cp311-*"]
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.12.0
+      uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_BUILD_VERBOSITY: 1
         CIBW_ARCHS: ARM64
         CIBW_BUILD: ${{ matrix.cibw_python }}
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         path: ./wheelhouse/*.whl
 
@@ -63,7 +63,7 @@ jobs:
          arch: ["manylinux", "musllinux"]
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Qemu
       uses: docker/setup-qemu-action@v2
@@ -71,13 +71,13 @@ jobs:
         platforms: arm64
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.12.0
+      uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_BUILD_VERBOSITY: 1
         CIBW_ARCHS: aarch64
         CIBW_BUILD: ${{ matrix.cibw_python }}${{ matrix.arch }}_aarch64
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         path: ./wheelhouse/*.whl
 
@@ -94,7 +94,7 @@ jobs:
         run: |
           pdm build --no-wheel
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: dist/*.tar.gz
       
@@ -102,15 +102,15 @@ jobs:
     needs: [build_wheels, build_wheels_arch, make_sdist]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: artifact
           path: dist
       
-      - name: Publish package
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          skip_existing: true
-          verbose: true
+      # - name: Publish package
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     user: __token__
+      #     password: ${{ secrets.PYPI_API_TOKEN }}
+      #     skip_existing: true
+      #     verbose: true

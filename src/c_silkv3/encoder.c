@@ -185,6 +185,9 @@ PyObject *encode_silk(PyObject *self, PyObject *args, PyObject *keyword_args) {
   /* Write payload size*/
   if (!tencent) {
     writeDataToStream(&outputData, (void *)&nBytes, sizeof(SKP_int16));
+  } else {
+    // qqfile should remove 1 bytes
+    removeDataFromStream(&outputData, 1L);
   }
 
   free(psEnc);

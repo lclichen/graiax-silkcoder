@@ -28,6 +28,11 @@ void writeDataToStream(DataStream *stream, unsigned char *data,
   stream->size += dataSize;
 }
 
+void removeDataFromStream(DataStream *stream, size_t dataSize) {
+  stream->size -= dataSize;
+  memset(stream->buffer + stream->size,'\0',dataSize)
+}
+
 void freeDataStream(DataStream *stream) {
   free(stream->buffer);
   stream->buffer = NULL;

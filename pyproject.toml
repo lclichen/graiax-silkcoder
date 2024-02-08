@@ -19,16 +19,15 @@ ffmpeg = ["imageio-ffmpeg"]
 [project.urls]
 repository = "https://github.com/I-love-study/graiax-silkcoder"
 
-[tool.pdm]
+[tool.pdm.build]
 package-dir = "src"
 includes = ["src/graiax"]  
 source-includes = ["src/c_silkv3"]
-
-[tool.pdm.build]
-setup-script = "build.py"
+setup-script = "setup.py"
 run-setuptools = true
 
 [tool.cibuildwheel]
+build = "cp39-*"
 # PyPy，不行
 skip = "pp*"
 
