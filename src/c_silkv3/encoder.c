@@ -106,7 +106,7 @@ PyObject *encode_silk(PyObject *self, PyObject *args, PyObject *keyword_args) {
     return NULL;
   };
   if (tencent) {
-    writeDataToStream(&outputData, (unsigned char *)&index, 1);
+    writeDataToStream(&outputData, (unsigned char *)"", 1);
   }
 
   writeDataToStream(&outputData, (unsigned char *)"#!SILK_V3", 9);
